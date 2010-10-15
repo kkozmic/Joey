@@ -30,3 +30,13 @@ task :copy_to_output => [:compile] do
     build_artefacts = FileList.new("src/**/#{CONFIG}/.").exclude("/obj/")
     FileUtils.cp_r build_artefacts, "#{OUTPUT_PATH}/#{CONFIG}/"
 end
+
+task :print_build_number do
+    puts build_number
+end
+
+def build_number()
+    version_info = /v(\d+)\.(\d+)\.(\d+)\-(\d+)/.match(`git describe --tags --long --match v*`.chomp)
+    "#{version_info[1]}.#{version_info[2]}.#{version_info[3]}.#{version_info[4]}"
+end
+
